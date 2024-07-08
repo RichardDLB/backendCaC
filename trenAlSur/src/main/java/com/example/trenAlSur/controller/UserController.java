@@ -1,5 +1,6 @@
 package com.example.trenAlSur.controller;
 
+import com.example.trenAlSur.dto.LoginUserDto;
 import com.example.trenAlSur.dto.UserDto;
 import com.example.trenAlSur.model.User;
 import com.example.trenAlSur.service.UserService;
@@ -13,20 +14,25 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = {"http://127.0.0.1:5500"})
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @PostMapping
-    public User createUser(@RequestBody User user){
-        return  userService.createUser(user);
+    public UserDto createUser(@RequestBody UserDto userDto){
+        return  userService.createUser(userDto);
     }
 
     @GetMapping
     public List<User> getAllUsers (){
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/login")
+    public UserDto login (@RequestBody LoginUserDto loginUserDto){
+        return userService.login(loginUserDto);
     }
 
     @GetMapping("/{id}")

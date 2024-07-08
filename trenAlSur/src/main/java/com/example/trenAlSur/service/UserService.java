@@ -1,5 +1,6 @@
 package com.example.trenAlSur.service;
 
+import com.example.trenAlSur.dto.LoginUserDto;
 import com.example.trenAlSur.dto.UserDto;
 import com.example.trenAlSur.model.User;
 import com.example.trenAlSur.repository.UserRepository;
@@ -18,8 +19,28 @@ public class UserService {
     private UserRepository userRepository;
 
 
-    public User createUser (User user){
-        return userRepository.save(user);
+    public UserDto createUser (UserDto userDto){
+        User user = new User();
+        user.setNombre(userDto.getNombre());
+        user.setApellido(userDto.getApellido());
+        user.setFenaci(userDto.getFenaci());
+        user.setPais(userDto.getPais());
+        user.setEmail(userDto.getEmail());
+        user.setUsuario(userDto.getUsuario());
+        user.setContraseña(userDto.getContraseña());
+        User created = userRepository.save(user);
+
+        return UserDto.builder()
+                .id(created.getId())
+                .nombre(created.getNombre())
+                .apellido(created.getApellido())
+                .fenaci(created.getFenaci())
+                .pais(created.getPais())
+                .email(created.getEmail())
+                .usuario(created.getUsuario())
+                .contraseña(created.getContraseña())
+                .build();
+
     }
 
     public List<User> getAllUsers (){
@@ -34,6 +55,23 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-
-
+    public UserDto login(LoginUserDto loginUserDto) {
+        Optional<User> byUsuario = userRepository.findByUsuario(loginUserDto.getUsuario());
+        if (byUsuario.isPresent()) {
+            User user = byUsuario.get();
+            if (loginUserDto.getContraseña().equals(user.getContraseña())){
+                return UserDto.builder()
+                        .id(user.getId())
+                        .nombre(user.getNombre())
+                        .apellido(user.getApellido())
+                        .fenaci(user.getFenaci())
+                        .pais(user.getPais())
+                        .email(user.getEmail())
+                        .usuario(user.getUsuario())
+                        .contraseña(user.getContraseña())
+                        .build();
+            }
+        }
+        return null;
+    }
 }

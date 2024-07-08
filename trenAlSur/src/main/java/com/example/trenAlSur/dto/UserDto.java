@@ -1,43 +1,19 @@
 package com.example.trenAlSur.dto;
 
+import lombok.Builder;
+import lombok.Data;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
+@Data
+@Builder
 public class UserDto {
 
+    private Integer id;
+    private String nombre;
+    private String apellido;
+    private String fenaci;
+    private String pais;
+    private String email;
     private String usuario;
     private String contraseña;
 
-    public UserDto() {
-    }
-
-    public UserDto(String usuario, String contraseña) {
-        this.usuario = usuario;
-        this.contraseña = contraseña;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
-    }
-
-    @Override
-    public String toString() {
-        return "UserDto{" +
-                "usuario='" + usuario + '\'' +
-                ", contraseña='" + contraseña + '\'' +
-                '}';
-    }
 }
